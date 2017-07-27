@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="Beispiel: Baukreditrechner, WWI15B-SE">
+    <meta name="author" content="Jan Fauth, Bastian Hodapp">
+    <link rel="icon" href="favicon.ico">
+
+    <title>Privatbank Mustermann & Co.</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="css/style.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+    <!-- http://getbootstrap.com/examples/starter-template/  -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+                <a class="navbar-brand" href="#">Privatbank Mustermann & Co.</a>
+            </div>
+            <div id="navbar" class="collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="#">Baufinanzierung</a></li>
+                    <li><a href="html/boersenspiel.html">Börsenspiel</a></li>
+                </ul>
+            </div>
+            <!--/.nav-collapse -->
+        </div>
+    </nav>
+
+    <div class="container">
+
+        <div class="starter-template">
+            <h1>Baufinanzierung</h1>
+            <p class="lead">Berechnen Sie ihre Baufinanzierungskosten mit unserem praktischen Baufinanzierungs-Kreditrechner:</p>
+        </div>
+
+        <form id="creditForm">
+            <div class="form-group">
+                <label for="buildingCost">Baukosten in Euro:</label>
+                <input type="number" min="0.01" step="0.01" value="200000" class="form-control" id="buildingCost">
+            </div>
+            <div class="form-group">
+                <label for="ownCapital">Eigenkapital in Euro:</label>
+                <input type="number" min="0.01" step="0.01" value="10000" class="form-control" id="ownCapital">
+            </div>
+            <div class="form-group">
+                <label for="estateCost">Grundstückspreis in Euro:</label>
+                <input type="number" min="0.01" step="0.01" value="50000" class="form-control" id="estateCost">
+            </div>
+
+            <label>Baunebenkosten, die zusätzlich betrachtet werden müssen:</label>
+            <ul>
+                <li>Maklerkosten: 4,7% vom Grundstückpreis: <span id="agentsFee">0</span></li>
+                <li>Notar inkl. Grundschuld: 2% vom Grundstückspreis <span id="notaryFee"></span></li>
+                <li>Grunderwerbssteuer: 5% vom Grundstückpreis <span id="reatlEstateTransferTax"></span></li>
+            </ul>
+            <p>Summe Baunebenkosten: <span id="sumOfAdditonalBuildingCosts"></span></p>
+            <p><strong>Ihr Darlehensbetrag:</strong> <span id="loanAmount"></span></p>
+            <i>Darlehensbetrag = Baukosten + Grundstückspreis + Baunebenkosten - Eigenkapital</i>
+            <hr/>
+            <div class="form-group">
+                <label for="annuity">Annuität:</label>
+                <input type="number" min="1.00" max="5.00" step="0.01" value="2.00" class="form-control" id="annuity">
+            </div>
+            <div class="form-group">
+                <label for="paybackPeriod">Rückzahlungsperiode:</label>
+                <select class="form-control" id="paybackPeriod">
+                    <option>10</option>
+                    <option>20</option>
+                    <option>30</option>
+                    <option>40</option>
+                </select>
+            </div>
+            <label>Jahreszins:</label>
+            <p>1,55%</p>
+        </form>
+    </div>
+    <!-- /.container -->
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script>
+        window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')
+    </script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+
+    <script src="js/finanzierung.js"></script>
+</body>
+
+</html>
