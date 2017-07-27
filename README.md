@@ -1,0 +1,2 @@
+# baukreditrechner
+Simple credit calculator
