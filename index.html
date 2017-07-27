@@ -27,7 +27,7 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 </head>
-
+    <!-- http://getbootstrap.com/examples/starter-template/  -->
 <body>
 
     <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -58,6 +58,27 @@
             <p class="lead">Berechnen Sie ihre Baufinanzierungskosten mit unserem praktischen Baufinanzierungs-Kreditrechner:</p>
         </div>
 
+        <form>
+            <div class="form-group">
+                <label for="buildingCost">Baukosten in Euro:</label>
+                <input type="number" min="0.01" step="0.01" value="200000" class="form-control" id="buildingCost">
+            </div>
+            <div class="form-group">
+                <label for="ownCapital">Eigenkapital in Euro:</label>
+                <input type="number" min="0.01" step="0.01" value="10000" class="form-control" id="ownCapital">
+            </div>
+            <div class="form-group">
+                <label for="estateCost">Grundstückspreis in Euro:</label>
+                <input type="number" min="0.01" step="0.01" value="50000" class="form-control" id="estateCost">
+            </div>
+            <p>
+                <ul>
+                    <li>Maklerkosten: 4,7% vom Grundstückpreis</li>
+                    <li>Notar inkl. Grundschuld: 2% vom Grundstückspreis</li>
+                    <li>Grunderwerbssteuer: 5% vom Grundstückpreis</li>
+                </ul>
+            </p>
+        </form>
     </div>
     <!-- /.container -->
 
