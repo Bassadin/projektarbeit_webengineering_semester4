@@ -27,9 +27,9 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 </head>
-    <!-- http://getbootstrap.com/examples/starter-template/  -->
-<body>
 
+<body>
+    <!-- http://getbootstrap.com/examples/starter-template/  -->
     <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
@@ -71,13 +71,27 @@
                 <label for="estateCost">Grundstückspreis in Euro:</label>
                 <input type="number" min="0.01" step="0.01" value="50000" class="form-control" id="estateCost">
             </div>
-            <p>
-                <ul>
-                    <li>Maklerkosten: 4,7% vom Grundstückpreis</li>
-                    <li>Notar inkl. Grundschuld: 2% vom Grundstückspreis</li>
-                    <li>Grunderwerbssteuer: 5% vom Grundstückpreis</li>
-                </ul>
-            </p>
+
+            <label>Baunebenkosten, die zusätzlich betrachtet werden müssen:</label>
+            <ul>
+                <li>Maklerkosten: 4,7% vom Grundstückpreis</li>
+                <li>Notar inkl. Grundschuld: 2% vom Grundstückspreis</li>
+                <li>Grunderwerbssteuer: 5% vom Grundstückpreis</li>
+            </ul>
+            <p>Summe: blablabla</p>
+            <p><strong>Ihr Darlehensbetrag:</strong> XXXX€</p>
+            <i>Baukosten + Grundstückspreis + Baunebenkosten - Eigenkapital</i>
+            <hr/>
+            <div class="form-group">
+                <label for="annuity">Annuität:</label>
+                <input type="number" min="1.00" max="5.00" step="0.01" value="2.00" class="form-control" id="annuity">
+            </div>
+            <div class="form-group">
+                <label for="paybackPeriod">Annuität:</label>
+                <input type="number" min="10" max="40" step="10" value="20" class="form-control" id="paybackPeriod">
+            </div>
+            <label>Jahreszins:</label>
+            <p>1,55%</p>
         </form>
     </div>
     <!-- /.container -->
