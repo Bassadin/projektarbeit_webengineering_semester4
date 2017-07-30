@@ -86,14 +86,24 @@
             <div class="form-group">
                 <label for="paybackPeriod">Rückzahlungsperiode:</label>
                 <select class="form-control" id="paybackPeriod">
-                    <option>10</option>
-                    <option>20</option>
-                    <option>30</option>
-                    <option>40</option>
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="30">30</option>
+                    <option value="40">40</option>
                 </select>
             </div>
             <label>Jahreszins:</label>
             <p>1,55%</p>
+            <hr/>
+            <h3>Ihre Zahlungsdetails</h3>
+            <label>Tilgungssatz:</label>
+            <p id="depreciationRate"></p>
+            <label>Höhe der monatlichen Rate:</label>
+            <p id="monthlyRate"></p>
+            <label>Datum der letzten Rate:</label>
+            <p id="dateOfLastRate"></p>
+            <hr/>
+            <table id="repaymentTable" class="display" width="100%"></table>
         </form>
     </div>
     <!-- /.container -->
