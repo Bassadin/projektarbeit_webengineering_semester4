@@ -1,18 +1,12 @@
 $(document).ready(function() {
     updateAllCosts();
-    document.getElementById("buildingCost").oninput = function() {
+    $("#buildingCost, #ownCapital, #estateCost, #annuity, #paybackPeriod").on("input", function() {
         updateAllCosts();
-    };
-    document.getElementById("ownCapital").oninput = function() {
-        updateAllCosts();
-    };
-    document.getElementById("estateCost").oninput = function() {
-        updateAllCosts();
-    };
+    });
 });
 
 function updateAllCosts() {
-    let estateCostValue = parseInt($("#estateCost").val()) + 1 * 0; //+ 1 * 0 -> hack for empty field, removes possibility of NaN output
+    let estateCostValue = parseInt($("#estateCost").val()) || 0;
 
     let agentsFee = estateCostValue * 0.047;
     let notaryFee = estateCostValue * 0.02;
@@ -25,8 +19,8 @@ function updateAllCosts() {
 
     $("#sumOfAdditonalBuildingCosts").text(sumOfAllAdditionalBuildingCosts.toFixed(2));
 
-    let ownCapital = parseInt($("#ownCapital").val()) + 1 * 0;
-    let loanAmount = parseInt($("#buildingCost").val()) + 1 * 0 +
+    let ownCapital = parseInt($("#ownCapital").val()) || 0;
+    let loanAmount = (parseInt($("#buildingCost").val()) || 0) +
         estateCostValue +
         sumOfAllAdditionalBuildingCosts -
         ownCapital;
@@ -45,7 +39,7 @@ function updateAllCosts() {
         } else {
             loanAmountText = "FEHLER: Wir vergeben keine Darlehen unter 50.000€.";
         }
-        loanAmountText = loanAmountText + " Mit den aktuellen Werten beträgt dieser " + loanAmount + "€."
+        loanAmountText = loanAmountText + " Mit den aktuellen Werten beträgt dieser " + loanAmount + "€.";
     }
 
 
