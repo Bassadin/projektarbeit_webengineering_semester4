@@ -105,6 +105,23 @@
             <hr/>
             <table id="repaymentTable" class="display" width="100%"></table>
         </form>
+
+        <table id="paymentTable" class="display table table-striped table-bordered" cellspacing="0">
+            <thead>
+                <tr>
+                    <th>Datum</th>
+                    <th>Gesamtbetrag</th>
+                    <th>Kapitaldienst (€) davon Sollzinsen</th>
+                    <th>Kapitaldienst (€) davon Tilgung</th>
+                    <th>Kontostand (€)</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+
+        <div class="starter-template">
+            <p>© by Bastian Hodapp & Jan Fauth</p>
+        </div>
     </div>
     <!-- /.container -->
 
@@ -119,6 +136,10 @@
     <script src="bootstrap/js/bootstrap.min.js"></script>
 
     <script src="js/finanzierung.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/r/bs-3.3.5/jq-2.1.4,dt-1.10.8/datatables.min.css" />
+
+    <script type="text/javascript" src="https://cdn.datatables.net/r/bs-3.3.5/jqc-1.11.3,dt-1.10.8/datatables.min.js"></script>
 </body>
 
 </html>

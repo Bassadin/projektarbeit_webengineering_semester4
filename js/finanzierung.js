@@ -1,6 +1,14 @@
 let interestRate = 0.0155;
+let paymentTable;
 
 $(document).ready(function() {
+    //https://datatables.net/
+    paymentTable = $('#paymentTable').DataTable({
+        paging: false,
+        searching: false,
+        ordering: false,
+        info: false
+    });
     updateAllCosts();
     $("#buildingCost, #ownCapital, #estateCost, #annuity, #paybackPeriod").on("input", function() {
         updateAllCosts();
@@ -55,18 +63,32 @@ function calculateRepaymentData(loanAmount) {
 
     $("#monthlyRate").text((loanAmount * (interestFactorWithPaybackPeriod * interestRate / (interestFactorWithPaybackPeriod - 1))).toFixed(2) + "€");
 
-    let today = new Date();
-    let dd = today.getDate();
-    let mm = today.getMonth() + 1;
-    let yyyy = today.getFullYear() + parseInt(paybackPeriod) - 1;
+    let todayDate = new Date();
+    let day = todayDate.getDate();
+    let todayMonth = todayDate.getMonth();
+    let targetMonth = todayMonth + 1;
+    let todayYear = todayDate.getFullYear();
+    let targetYear = todayYear + parseInt(paybackPeriod) - 1;
 
-    if (dd < 10) {
-        dd = '0' + dd;
+    if (day < 10) {
+        day = '0' + day;
     }
 
-    if (mm < 10) {
-        mm = '0' + mm;
+    if (targetMonth < 10) {
+        targetMonth = '0' + targetMonth;
     }
 
-    $("#dateOfLastRate").text(dd + '.' + mm + '.' + yyyy);
+    $("#dateOfLastRate").text(day + '.' + targetMonth + '.' + targetYear);
+
+    paymentTable.clear();
+    for (i = todayYear; i <= targetYear; i++) {
+        paymentTable.row.add([
+            day + '.' + todayMonth + '.' + i,
+            "xxx",
+            "xxx",
+            "xxx",
+            "abc"
+        ])
+    }
+    paymentTable.draw();
 }
