@@ -50,7 +50,7 @@ function updateAllCosts() {
 }
 
 function calculateRepaymentData(loanAmount) {
-    let paybackPeriod = $("paybackPeriod").val() || 20; //Fallback to 20
+    let paybackPeriod = $("#paybackPeriod").val() || 20; //Fallback to 20
     let interestFactorWithPaybackPeriod = Math.pow(1 + interestRate, paybackPeriod);
 
     $("#monthlyRate").text((loanAmount * (interestFactorWithPaybackPeriod * interestRate / (interestFactorWithPaybackPeriod - 1))).toFixed(2) + "€");
@@ -58,7 +58,7 @@ function calculateRepaymentData(loanAmount) {
     let today = new Date();
     let dd = today.getDate();
     let mm = today.getMonth() + 1;
-    let yyyy = today.getFullYear() + paybackPeriod - 1;
+    let yyyy = today.getFullYear() + parseInt(paybackPeriod) - 1;
 
     if (dd < 10) {
         dd = '0' + dd;
