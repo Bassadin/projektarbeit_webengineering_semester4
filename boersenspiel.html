@@ -52,6 +52,24 @@
         <div class="starter-template">
             <h1>Börsenspiel</h1>
             <p class="lead">Erleben Sie den Nervenkitzel der Börse mit unserem Börsenspiel</p>
+            <p> Bei unserem Börsenspiel erhalten Sie 10.000€ Startkapital und können mit diesem Aktien kaufen und verkaufen. Ziel ist es nach 15 Minuten möglichst viel Gewinn zu machen. </p>
+            <label for="username">Spielername:</label>
+            <input type="text" id="username">
+
+            <br>
+            <button type="button" class="btn btn-default" id="startGame">Starte das Börsenspiel</button>
+            <button type="button" class="btn btn-default" id="endGame">Beende das Börsenspiel frühzeitig</button>
+
+        </div>
+
+        <div class="starter-template">
+            <p> Zurzeitiges Kapital: <span id="capital">10000</span>€. Anzahl Ihrer Aktien: <span id="amountAktien">0</span>. Aktueller Aktienkurs: <span id="aktienCours">100</span>€ </p>
+
+            <p> <input type="number" id="aktienCount" min="0"> Aktien
+                <button type="button" id="buyAktien" class="btn btn-default">Kaufen</button>
+                <button type="button" id="sellAktien" class="btn btn-default">Verkaufen</button>
+            </p>
+
         </div>
 
         <div class="starter-template">
@@ -69,6 +87,8 @@
         window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')
     </script>
     <script src="bootstrap/js/bootstrap.min.js"></script>
+
+    <script src="js/boersenspiel.js"></script>
 </body>
 
 </html>
