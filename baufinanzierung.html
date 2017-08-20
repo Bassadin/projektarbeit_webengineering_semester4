@@ -40,8 +40,8 @@
             </div>
             <div id="navbar" class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
-                    <li><a href="baufinanzierung.html">Baufinanzierung</a></li>
-                    <li class="active"><a href="#">Börsenspiel</a></li>
+                    <li class="active"><a href="#">Baufinanzierung</a></li>
+                    <li><a href="boersenspiel.html">Börsenspiel</a></li>
                 </ul>
             </div>
             <!--/.nav-collapse -->
@@ -49,34 +49,82 @@
     </nav>
 
     <div class="container">
-        <div class="starter-template">
-            <h1>Börsenspiel</h1>
-            <p class="lead">Erleben Sie den Nervenkitzel der Börse mit unserem Börsenspiel</p>
-            <p> Bei unserem Börsenspiel erhalten Sie 10.000€ Startkapital und können mit diesem Aktien kaufen und verkaufen. Ziel ist es nach 15 Minuten möglichst viel Gewinn zu machen. </p>
-            <label for="username">Spielername:</label>
-            <input type="text" id="username">
-
-            <br>
-            <button type="button" class="btn btn-default" id="startGame">Starte das Börsenspiel</button>
-            <button type="button" class="btn btn-default" id="endGame">Beende das Börsenspiel frühzeitig</button>
-
-        </div>
 
         <div class="starter-template">
-            <p> Zurzeitiges Kapital: <span id="capital">10000</span>€. Anzahl Ihrer Aktien: <span id="amountAktien">0</span>. Aktueller Aktienkurs: <span id="aktienCours">100</span>€ </p>
-
-            <p> <input type="number" id="aktienCount" min="0"> Aktien
-                <button type="button" id="buyAktien" class="btn btn-default">Kaufen</button>
-                <button type="button" id="sellAktien" class="btn btn-default">Verkaufen</button>
-            </p>
-
+            <h1>Baufinanzierung</h1>
+            <p class="lead">Berechnen Sie ihre Baufinanzierungskosten mit unserem praktischen Baufinanzierungs-Kreditrechner:</p>
         </div>
+
+        <form id="creditForm">
+            <div class="form-group">
+                <label for="buildingCost">Baukosten in Euro:</label>
+                <input type="number" min="0.01" step="0.01" value="200000" class="form-control" id="buildingCost">
+            </div>
+            <div class="form-group">
+                <label for="ownCapital">Eigenkapital in Euro:</label>
+                <input type="number" min="0.01" step="0.01" value="80000" class="form-control" id="ownCapital">
+            </div>
+            <div class="form-group">
+                <label for="estateCost">Grundstückspreis in Euro:</label>
+                <input type="number" min="0.01" step="0.01" value="50000" class="form-control" id="estateCost">
+            </div>
+
+            <label>Baunebenkosten, die zusätzlich betrachtet werden müssen:</label>
+            <ul>
+                <li>Maklerkosten: 4,7% vom Grundstückpreis: <span id="agentsFee">0</span>€</li>
+                <li>Notar inkl. Grundschuld: 2% vom Grundstückspreis: <span id="notaryFee"></span>€</li>
+                <li>Grunderwerbssteuer: 5% vom Grundstückpreis: <span id="realEstateTransferTax"></span>€</li>
+            </ul>
+            <p>Summe Baunebenkosten: <span id="sumOfAdditonalBuildingCosts"></span>€</p>
+            <p><strong>Ihr Darlehensbetrag:</strong> <span id="loanAmount"></span></p>
+            <i>Darlehensbetrag = Baukosten + Grundstückspreis + Baunebenkosten - Eigenkapital</i>
+            <hr/>
+            <div class="form-group">
+                <label for="annuity">Annuität:</label>
+                <input type="number" min="1.00" max="5.00" step="0.01" value="2.00" class="form-control" id="annuity">
+            </div>
+            <div class="form-group">
+                <label for="paybackPeriod">Rückzahlungsperiode:</label>
+                <select class="form-control" id="paybackPeriod">
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="30">30</option>
+                    <option value="40">40</option>
+                </select>
+            </div>
+            <label>Jahreszins:</label>
+            <p>1,55%</p>
+            <hr/>
+            <h3>Ihre Zahlungsdetails</h3>
+            <label>Tilgungssatz:</label>
+            <p id="depreciationRate"></p>
+            <label>Höhe der monatlichen Rate:</label>
+            <p id="monthlyRate"></p>
+            <label>Datum der letzten Rate:</label>
+            <p id="dateOfLastRate"></p>
+            <hr/>
+            <table id="repaymentTable" class="display" width="100%"></table>
+        </form>
+
+        <table id="paymentTable" class="display table table-striped table-bordered" cellspacing="0">
+            <thead>
+                <tr>
+                    <th>Datum</th>
+                    <th>Gesamtbetrag</th>
+                    <th>Kapitaldienst (€) davon Sollzinsen</th>
+                    <th>Kapitaldienst (€) davon Tilgung</th>
+                    <th>Kontostand (€)</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
 
         <div class="starter-template">
             <p>© by Bastian Hodapp & Jan Fauth</p>
         </div>
     </div>
     <!-- /.container -->
+
 
     <!-- Bootstrap core JavaScript
     ================================================== -->
@@ -87,7 +135,11 @@
     </script>
     <script src="bootstrap/js/bootstrap.min.js"></script>
 
-    <script src="js/boersenspiel.js"></script>
+    <script src="js/finanzierung.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/r/bs-3.3.5/jq-2.1.4,dt-1.10.8/datatables.min.css" />
+
+    <script type="text/javascript" src="https://cdn.datatables.net/r/bs-3.3.5/jqc-1.11.3,dt-1.10.8/datatables.min.js"></script>
 </body>
 
 </html>
