@@ -64,42 +64,42 @@ function calculateRepaymentData(loanAmount) {
     $("#monthlyRate").text((loanAmount * (interestFactorWithPaybackPeriod * interestRate / (interestFactorWithPaybackPeriod - 1))).toFixed(2) + "€");
 
     let todayDate = new Date();
-    let day = todayDate.getDate();
+    let todayDay = todayDate.getDate();
     let todayMonth = todayDate.getMonth();
     let targetMonth = todayMonth + 1;
     let todayYear = todayDate.getFullYear();
     let targetYear = todayYear + parseInt(paybackPeriod) - 1;
 
-    if (day < 10) {
-        day = '0' + day;
+    if (todayDay < 10) {
+        todayDay = '0' + todayDay;
     }
 
     if (targetMonth < 10) {
         targetMonth = '0' + targetMonth;
     }
 
-    $("#dateOfLastRate").text(day + '.' + targetMonth + '.' + targetYear);
+    //Set the date string
+    $("#dateOfLastRate").text(todayDay + '.' + targetMonth + '.' + targetYear);
 
     let annuityCosts = (loanAmount * (Math.pow((1 + interestRate), paybackPeriod) * interestRate) / (Math.pow((1 + interestRate), paybackPeriod) - 1)).toFixed(2);
     let leftLoanAmount = loanAmount;
-    let rateAmount = (loanAmount * interestRate).toFixed(2);
-    let repayment = (annuityCosts - rateAmount).toFixed(2);
+    let rateAmount, repayment;
 
+    //Clear table and then fill it
     paymentTable.clear();
     for (i = todayYear; i <= targetYear; i++) {
-
+        rateAmount = (leftLoanAmount * interestRate).toFixed(2);
+        repayment = (annuityCosts - rateAmount).toFixed(2);
 
         paymentTable.row.add([
-            day + '.' + todayMonth + '.' + i,
+            todayDay + '.' + todayMonth + '.' + i,
             annuityCosts,
             rateAmount,
             repayment,
             "-" + leftLoanAmount
-        ])
-
+        ]);
         leftLoanAmount = (leftLoanAmount - repayment).toFixed(2);
-        rateAmount = (leftLoanAmount * interestRate).toFixed(2);
-        repayment = (annuityCosts - rateAmount).toFixed(2);
     }
+    //Redraw the table so that the changes get visible
     paymentTable.draw();
 }
