@@ -80,15 +80,26 @@ function calculateRepaymentData(loanAmount) {
 
     $("#dateOfLastRate").text(day + '.' + targetMonth + '.' + targetYear);
 
-    paymentTable.clear();
+   let anuityCosts = (loanAmount  * (Math.pow((1+interestRate),paybackPeriod)*interestRate)/(Math.pow((1+interestRate), paybackPeriod)-1)).toFixed(2);
+   let leftLoanAmount = loanAmount;
+   let rateAmount = (loanAmount*interestRate).toFixed(2);
+   let repayment = (anuityCosts-rateAmount).toFixed(2);
+   
+   paymentTable.clear();
     for (i = todayYear; i <= targetYear; i++) {
+    	
+    	
         paymentTable.row.add([
             day + '.' + todayMonth + '.' + i,
-            "xxx",
-            "xxx",
-            "xxx",
-            "abc"
+            anuityCosts,
+            rateAmount,
+            repayment,
+            "-"+leftLoanAmount                       
         ])
+        
+        leftLoanAmount = (leftLoanAmount - repayment).toFixed(2);
+        rateAmount = (leftLoanAmount *interestRate).toFixed(2);
+        repayment =(anuityCosts-rateAmount).toFixed(2);
     }
     paymentTable.draw();
 }
