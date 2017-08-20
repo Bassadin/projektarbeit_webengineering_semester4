@@ -71,6 +71,7 @@ function aktienCourseChange(aktienWorth) {
     }
 
     let newAktienPrice = (parseFloat(aktienWorth) + parseFloat(courseChange)).toFixed(2);
+    if (newAktienPrice < 1) { newAktienPrice = 1; }
     $("#aktienCours").text(newAktienPrice);
 }
 
@@ -88,10 +89,10 @@ function calcCourseChange(liklyness) {
 function buyAktien(amount) {
 
 
-    if (amount * parseFloat($("#aktienCours").text()) > amountMoney) {
+    if ((amount * parseFloat($("#aktienCours").text()) - (-1) * fee(amount)) > amountMoney) {
         // TODO Fehlermeldung nicht genügend kapital verhanden
     } else {
-        amountMoney = (amountMoney - amount * parseFloat($("#aktienCours").text())).toFixed(2);
+        amountMoney = (amountMoney - fee(amount) - amount * parseFloat($("#aktienCours").text())).toFixed(2);
         amountAktienOwned = amountAktienOwned + amount;
 
         $('#amountAktien').text(amountAktienOwned);
@@ -104,9 +105,18 @@ function sellAktien(amount) {
     if (amount > parseInt($('#amountAktien').text())) {
         //TODO fehler meldung, man kann nicht  mehr Aktien verkaufen als besitzen
     } else {
-        amountMoney = (amountMoney - (-amount) * parseFloat($("#aktienCours").text())).toFixed(2);
+        amountMoney = (amountMoney - fee(amount) - (-amount) * parseFloat($("#aktienCours").text())).toFixed(2);
         amountAktienOwned = amountAktienOwned - amount;
         $('#amountAktien').text(amountAktienOwned);
         $('#capital').text(parseFloat(amountMoney));
+    }
+}
+
+function fee(amount) {
+
+    if ((5 - (-1) * 0.05 * amount * parseFloat($("#aktienCours").text()) > 60)) {
+        return 60;
+    } else {
+        return (5 - (-1) * 0.05 * amount * parseFloat($("#aktienCours").text()));
     }
 }
