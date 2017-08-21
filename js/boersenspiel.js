@@ -4,6 +4,8 @@ let amountMoney = 10000;
 
 $(document).ready(function() {
 
+    actualTime();
+
     $('#endGame').click(function() {
         stopGame();
     });
@@ -20,6 +22,9 @@ $(document).ready(function() {
         sellAktien(parseInt($("#aktienCount").val()));
     });
 
+    $('#aktienCount').on("input", function() {
+        updateAktienBuyAndSellAmount();
+    });
 });
 
 let courseRise; // boelaen 
@@ -32,6 +37,7 @@ function startGame(username) {
     if (username) {
         runningGame = setInterval(function() {
             aktienCourseChange($("#aktienCours").text());
+            drawAktienCourse($("#aktienCours").text());
         }, 1000);
         setTimeout(stopGame, 15 * 60 * 1000) // cancel after 15 min
 
@@ -119,4 +125,38 @@ function fee(amount) {
     } else {
         return (5 - (-1) * 0.05 * amount * parseFloat($("#aktienCours").text()));
     }
+}
+
+
+function actualTime() {
+
+    date = new Date;
+    let hour = date.getHours();
+    if (hour < 10) {
+        hour = "0" + hour;
+    }
+    let minutes = date.getMinutes();
+    if (minutes < 10) {
+        minutes = "0" + minutes;
+    }
+    let seconds = date.getSeconds();
+    if (seconds < 10) {
+        seconds = "0" + seconds;
+    }
+    result = hour + ':' + minutes + ':' + seconds;
+    $('#time').text(result);
+    setTimeout(actualTime, 1000);
+}
+
+function updateAktienBuyAndSellAmount() {
+    $('#aktienBuyingCost').text(fee(parseInt($("#aktienCount").val())) - (-parseInt($("#aktienCount").val())) * parseFloat($("#aktienCours").text()));
+    $('#aktienSellingCost').text((parseInt($("#aktienCount").val())) * parseFloat($("#aktienCours").text()) - fee(parseInt($("#aktienCount").val())));
+}
+
+function drawAktienCourse(newAktienCourse) {
+    var canvas = document.getElementById('stockMarket');
+    /* Kästchen */
+    canvas = canvas.getContext('2d');
+    canvas.fillStyle = "rgb(200,0,0)";
+    canvas.fillRect(10, 10, 55, 55);
 }
