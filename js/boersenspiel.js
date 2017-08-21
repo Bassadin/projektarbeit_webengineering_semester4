@@ -1,10 +1,10 @@
-let amountAktienOwned = 0;
+let amountOfSharesOwned = 0;
 let amountMoney = 10000;
 
 
 $(document).ready(function() {
 
-    actualTime();
+    currentTime();
 
     $('#endGame').click(function() {
         stopGame();
@@ -15,15 +15,15 @@ $(document).ready(function() {
     });
 
     $('#buyAktien').click(function() {
-        buyAktien(parseInt($("#aktienCount").val()));
+        buyShares(parseInt($("#aktienCount").val()));
     });
 
     $('#sellAktien').click(function() {
-        sellAktien(parseInt($("#aktienCount").val()));
+        sellShares(parseInt($("#aktienCount").val()));
     });
 
     $('#aktienCount').on("input", function() {
-        updateAktienBuyAndSellAmount();
+        updateSharesBuyAndSellAmount();
     });
 });
 
@@ -36,8 +36,8 @@ function startGame(username) {
 
     if (username) {
         runningGame = setInterval(function() {
-            aktienCourseChange($("#aktienCours").text());
-            drawAktienCourse($("#aktienCours").text());
+            sharesCourseChange($("#aktienCours").text());
+            drawSharesValueGraph($("#aktienCours").text());
         }, 1000);
         setTimeout(stopGame, 15 * 60 * 1000) // cancel after 15 min
 
@@ -52,23 +52,23 @@ function stopGame() {
     clearInterval(runningGame);
 }
 
-function aktienCourseChange(aktienWorth) {
+function sharesCourseChange(sharesValue) {
 
     let courseChange;
 
     if (numberOfRise >= 3 || numberOfFall >= 3) {
 
         if (numberOfRise >= 3) {
-            courseChange = calcCourseChange(0.75);
+            courseChange = calculateCourseChange(0.75);
         } else {
-            courseChange = calcCourseChange(0.25);
+            courseChange = calculateCourseChange(0.25);
         }
 
     } else {
-        courseChange = calcCourseChange(0.5);
+        courseChange = calculateCourseChange(0.5);
     }
 
-    if (aktienWorth < aktienWorth + courseChange) {
+    if (sharesValue < sharesValue + courseChange) {
         numberOfRise = 0;
         numberOfFall = numberOfFall + 1;
     } else {
@@ -76,49 +76,49 @@ function aktienCourseChange(aktienWorth) {
         numberOfFall = 0;
     }
 
-    let newAktienPrice = (parseFloat(aktienWorth) + parseFloat(courseChange)).toFixed(2);
+    let newAktienPrice = (parseFloat(sharesValue) + parseFloat(courseChange)).toFixed(2);
     if (newAktienPrice < 1) { newAktienPrice = 1; }
     $("#aktienCours").text(newAktienPrice);
 }
 
-function calcCourseChange(liklyness) {
+function calculateCourseChange(likeliness) {
     let changeAmount = (Math.random() * (0.15 - 0.01) + 0.01).toFixed(2); // number between 0.01 and 0.015
     let riseOrFall = ((Math.random() * 100) + 1);
 
-    if (riseOrFall <= 100 * liklyness) {
+    if (riseOrFall <= 100 * likeliness) {
         return changeAmount;
     } else {
         return changeAmount * -1;
     }
 }
 
-function buyAktien(amount) {
+function buyShares(amount) {
 
 
-    if ((amount * parseFloat($("#aktienCours").text()) - (-1) * fee(amount)) > amountMoney) {
+    if ((amount * parseFloat($("#aktienCours").text()) - (-1) * calculateFee(amount)) > amountMoney) {
         // TODO Fehlermeldung nicht genügend kapital verhanden
     } else {
-        amountMoney = (amountMoney - fee(amount) - amount * parseFloat($("#aktienCours").text())).toFixed(2);
-        amountAktienOwned = amountAktienOwned + amount;
+        amountMoney = (amountMoney - calculateFee(amount) - amount * parseFloat($("#aktienCours").text())).toFixed(2);
+        amountOfSharesOwned = amountOfSharesOwned + amount;
 
-        $('#amountAktien').text(amountAktienOwned);
+        $('#amountAktien').text(amountOfSharesOwned);
         $('#capital').text(parseFloat(amountMoney));
     }
 }
 
-function sellAktien(amount) {
+function sellShares(amount) {
 
     if (amount > parseInt($('#amountAktien').text())) {
         //TODO fehler meldung, man kann nicht  mehr Aktien verkaufen als besitzen
     } else {
-        amountMoney = (amountMoney - fee(amount) - (-amount) * parseFloat($("#aktienCours").text())).toFixed(2);
-        amountAktienOwned = amountAktienOwned - amount;
-        $('#amountAktien').text(amountAktienOwned);
+        amountMoney = (amountMoney - calculateFee(amount) - (-amount) * parseFloat($("#aktienCours").text())).toFixed(2);
+        amountOfSharesOwned = amountOfSharesOwned - amount;
+        $('#amountAktien').text(amountOfSharesOwned);
         $('#capital').text(parseFloat(amountMoney));
     }
 }
 
-function fee(amount) {
+function calculateFee(amount) {
 
     if ((5 - (-1) * 0.05 * amount * parseFloat($("#aktienCours").text()) > 60)) {
         return 60;
@@ -128,7 +128,7 @@ function fee(amount) {
 }
 
 
-function actualTime() {
+function currentTime() {
 
     date = new Date;
     let hour = date.getHours();
@@ -145,15 +145,15 @@ function actualTime() {
     }
     result = hour + ':' + minutes + ':' + seconds;
     $('#time').text(result);
-    setTimeout(actualTime, 1000);
+    setTimeout(currentTime, 1000);
 }
 
-function updateAktienBuyAndSellAmount() {
-    $('#aktienBuyingCost').text(fee(parseInt($("#aktienCount").val())) - (-parseInt($("#aktienCount").val())) * parseFloat($("#aktienCours").text()));
-    $('#aktienSellingCost').text((parseInt($("#aktienCount").val())) * parseFloat($("#aktienCours").text()) - fee(parseInt($("#aktienCount").val())));
+function updateSharesBuyAndSellAmount() {
+    $('#aktienBuyingCost').text(calculateFee(parseInt($("#aktienCount").val())) - (-parseInt($("#aktienCount").val())) * parseFloat($("#aktienCours").text()));
+    $('#aktienSellingCost').text((parseInt($("#aktienCount").val())) * parseFloat($("#aktienCours").text()) - calculateFee(parseInt($("#aktienCount").val())));
 }
 
-function drawAktienCourse(newAktienCourse) {
+function drawSharesValueGraph(newAktienCourse) {
     var canvas = document.getElementById('stockMarket');
     /* Kästchen */
     canvas = canvas.getContext('2d');
