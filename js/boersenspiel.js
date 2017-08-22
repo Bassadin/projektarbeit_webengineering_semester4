@@ -1,5 +1,6 @@
 let amountOfSharesOwned = 0;
 let amountMoney = 10000;
+let maxGameTimeSec = 900;
 
 let canvas = document.getElementById('stockMarket');
 canvas = canvas.getContext('2d');
@@ -184,10 +185,11 @@ function drawSharesValueGraph(newAktienCourse, time) {
 
 
     let height = document.getElementById('stockMarket').scrollHeight;
+    let width = document.getElementById('stockMarket').scrollWidth;
 
     let modiviedAktienCOurseForDrawing = newAktienCourse * (height / 235);
 
-    canvas.lineTo(time * (10 / 15), modiviedAktienCOurseForDrawing);
+    canvas.lineTo(time * (width / maxGameTimeSec), modiviedAktienCOurseForDrawing);
     canvas.stroke();
     console.log(height);
 }
