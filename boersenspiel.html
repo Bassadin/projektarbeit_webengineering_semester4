@@ -55,6 +55,8 @@
             <p> Bei unserem Börsenspiel erhalten Sie 10.000€ Startkapital und können mit diesem Aktien kaufen und verkaufen. Ziel ist es nach 15 Minuten möglichst viel Gewinn zu machen. </p>
             <label for="username">Spielername:</label>
             <input type="text" id="username">
+            </br>
+            <span id="noUserName" class="error"></span>
 
             <br>
             <button type="button" class="btn btn-default" id="startGame">Starte das Börsenspiel</button>
@@ -69,13 +71,14 @@
                 <button type="button" id="buyAktien" class="btn btn-default">Kaufen</button>
                 <button type="button" id="sellAktien" class="btn btn-default">Verkaufen</button>
             </p>
+            <span class="error" id="sellOrBuyError"></span>
 
             <p>Wenn sie die von Ihnen eingegebene Anzahl an Aktien kaufen, würde dies <span id="aktienBuyingCost">110</span>€ kosten.</p>
             <p> Wenn Sie die von Ihnen eingegebene Anzahl an Aktien verkaufen würden, erhalten Sie <span id="aktienSellingCost">90</span>€.</p>
 
         </div>
 
-        <canvas id="stockMarket" width="400" height="300"></canvas>
+        <canvas id="stockMarket" width="1000" height="8000"></canvas>
 
 
         <div class="starter-template">

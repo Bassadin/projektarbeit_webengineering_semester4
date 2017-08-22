@@ -1,6 +1,12 @@
 let amountOfSharesOwned = 0;
 let amountMoney = 10000;
 
+let canvas = document.getElementById('stockMarket');
+canvas = canvas.getContext('2d');
+canvas.lineJoin = "round";
+canvas.beginPath();
+canvas.moveTo(0, 3404);
+
 
 $(document).ready(function() {
 
@@ -27,7 +33,6 @@ $(document).ready(function() {
     });
 });
 
-let courseRise; // boelaen 
 let numberOfRise;
 let numberOfFall;
 let runningGame = null;
@@ -35,15 +40,19 @@ let runningGame = null;
 function startGame(username) {
 
     if (username) {
+        document.getElementById("startGame").disabled = true;
+        let runtime = 0;
         runningGame = setInterval(function() {
+            runtime = runtime + 1;
             sharesCourseChange($("#aktienCours").text());
-            drawSharesValueGraph($("#aktienCours").text());
+            drawSharesValueGraph($("#aktienCours").text(), runtime);
         }, 1000);
         setTimeout(stopGame, 15 * 60 * 1000) // cancel after 15 min
 
-    } else {
-        //TODO fehlermeldung das Name fehlt
+        $('#noUserName').text("");
 
+    } else {
+        $('#noUserName').text("Sie müssen einen Spielernamen eingeben befor Sie das Spiel starten können!");
     }
 
 }
@@ -94,27 +103,33 @@ function calculateCourseChange(likeliness) {
 
 function buyShares(amount) {
 
+    if (!amount == 0) {
+        if ((amount * parseFloat($("#aktienCours").text()) - (-1) * calculateFee(amount)) > amountMoney) {
+            $('#sellOrBuyError').text("Sie besitzen nicht genügend Geld um die Aktien zu kaufen!");
+        } else {
+            $('#sellOrBuyError').text("");
 
-    if ((amount * parseFloat($("#aktienCours").text()) - (-1) * calculateFee(amount)) > amountMoney) {
-        // TODO Fehlermeldung nicht genügend kapital verhanden
-    } else {
-        amountMoney = (amountMoney - calculateFee(amount) - amount * parseFloat($("#aktienCours").text())).toFixed(2);
-        amountOfSharesOwned = amountOfSharesOwned + amount;
+            amountMoney = (amountMoney - calculateFee(amount) - amount * parseFloat($("#aktienCours").text())).toFixed(2);
+            amountOfSharesOwned = amountOfSharesOwned + amount;
 
-        $('#amountAktien').text(amountOfSharesOwned);
-        $('#capital').text(parseFloat(amountMoney));
+            $('#amountAktien').text(amountOfSharesOwned);
+            $('#capital').text(parseFloat(amountMoney));
+        }
     }
+
 }
 
 function sellShares(amount) {
-
-    if (amount > parseInt($('#amountAktien').text())) {
-        //TODO fehler meldung, man kann nicht  mehr Aktien verkaufen als besitzen
-    } else {
-        amountMoney = (amountMoney - calculateFee(amount) - (-amount) * parseFloat($("#aktienCours").text())).toFixed(2);
-        amountOfSharesOwned = amountOfSharesOwned - amount;
-        $('#amountAktien').text(amountOfSharesOwned);
-        $('#capital').text(parseFloat(amountMoney));
+    if (!amount == 0) {
+        if (amount > parseInt($('#amountAktien').text())) {
+            $('#sellOrBuyError').text("Sie können nicht mehr Aktien verkaufen als Sie besitzen!");
+        } else {
+            $('#sellOrBuyError').text("");
+            amountMoney = (amountMoney - calculateFee(amount) - (-amount) * parseFloat($("#aktienCours").text())).toFixed(2);
+            amountOfSharesOwned = amountOfSharesOwned - amount;
+            $('#amountAktien').text(amountOfSharesOwned);
+            $('#capital').text(parseFloat(amountMoney));
+        }
     }
 }
 
@@ -149,14 +164,30 @@ function currentTime() {
 }
 
 function updateSharesBuyAndSellAmount() {
-    $('#aktienBuyingCost').text(calculateFee(parseInt($("#aktienCount").val())) - (-parseInt($("#aktienCount").val())) * parseFloat($("#aktienCours").text()));
-    $('#aktienSellingCost').text((parseInt($("#aktienCount").val())) * parseFloat($("#aktienCours").text()) - calculateFee(parseInt($("#aktienCount").val())));
+    $('#aktienBuyingCost').text(calculateFee(parseInt($("#aktienCount").val())) - (-parseInt($("#aktienCount").val())) * parseFloat($("#aktienCours").text()) || 0);
+    $('#aktienSellingCost').text((parseInt($("#aktienCount").val())) * parseFloat($("#aktienCours").text()) - calculateFee(parseInt($("#aktienCount").val())) || 0);
 }
 
-function drawSharesValueGraph(newAktienCourse) {
-    var canvas = document.getElementById('stockMarket');
-    /* Kästchen */
-    canvas = canvas.getContext('2d');
-    canvas.fillStyle = "rgb(200,0,0)";
-    canvas.fillRect(10, 10, 55, 55);
+function drawSharesValueGraph(newAktienCourse, time) {
+
+    /* let modiviedAktienCOurseForDrawing = parseInt((newAktienCourse - 100) / 10) * 10;
+
+     if (modiviedAktienCOurseForDrawing < 0) {
+         modiviedAktienCOurseForDrawing = modiviedAktienCOurseForDrawing * -1;
+     } else {
+         modiviedAktienCOurseForDrawing = modiviedAktienCOurseForDrawing + 10;
+     }
+
+     modiviedAktienCOurseForDrawing = modiviedAktienCOurseForDrawing + 1;
+
+     modiviedAktienCOurseForDrawing = (modiviedAktienCOurseForDrawing) * (400 / 20);*/
+
+
+    let height = document.getElementById('stockMarket').scrollHeight;
+
+    let modiviedAktienCOurseForDrawing = newAktienCourse * (height / 235);
+
+    canvas.lineTo(time * (10 / 15), modiviedAktienCOurseForDrawing);
+    canvas.stroke();
+    console.log(height);
 }
