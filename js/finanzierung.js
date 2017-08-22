@@ -81,7 +81,9 @@ function calculateRepaymentData(loanAmount) {
     //Set the date string
     $("#dateOfLastRate").text(todayDay + '.' + targetMonth + '.' + targetYear);
 
-    let annuityCosts = (loanAmount * (Math.pow((1 + interestRate), paybackPeriod) * interestRate) / (Math.pow((1 + interestRate), paybackPeriod) - 1)).toFixed(2);
+    // Real annuity cost calculation
+    // let annuityCosts = (loanAmount * (Math.pow((1 + interestRate), paybackPeriod) * interestRate) / (Math.pow((1 + interestRate), paybackPeriod) - 1)).toFixed(2);
+    let annuityCosts = loanAmount * ($('#annuity').val() / 100);
     let leftLoanAmount = loanAmount;
     let rateAmount, repayment;
 
