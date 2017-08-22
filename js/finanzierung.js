@@ -104,4 +104,5 @@ function calculateRepaymentData(loanAmount) {
     }
     //Redraw the table so that the changes get visible
     paymentTable.draw();
+    $('#openPayment').text(leftLoanAmount);
 }

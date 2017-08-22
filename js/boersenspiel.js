@@ -1,6 +1,7 @@
 let amountOfSharesOwned = 0;
 let amountMoney = 10000;
 let maxGameTimeSec = 900;
+let shareValue = 100;
 
 let canvas = document.getElementById('stockMarket');
 canvas = canvas.getContext('2d');
@@ -45,8 +46,8 @@ function startGame(username) {
         let runtime = 0;
         runningGame = setInterval(function() {
             runtime = runtime + 1;
-            sharesCourseChange($("#aktienCours").text());
-            drawSharesValueGraph($("#aktienCours").text(), runtime);
+            sharesCourseChange(shareValue);
+            drawSharesValueGraph(shareValue, runtime);
         }, 1000);
         setTimeout(stopGame, 15 * 60 * 1000) // cancel after 15 min
 
@@ -89,6 +90,7 @@ function sharesCourseChange(sharesValue) {
     let newAktienPrice = (parseFloat(sharesValue) + parseFloat(courseChange)).toFixed(2);
     if (newAktienPrice < 1) { newAktienPrice = 1; }
     $("#aktienCours").text(newAktienPrice);
+    shareValue = newAktienPrice;
 }
 
 function calculateCourseChange(likeliness) {
@@ -105,12 +107,12 @@ function calculateCourseChange(likeliness) {
 function buyShares(amount) {
 
     if (!amount == 0) {
-        if ((amount * parseFloat($("#aktienCours").text()) - (-1) * calculateFee(amount)) > amountMoney) {
+        if ((amount * shareValue - (-1) * calculateFee(amount)) > amountMoney) {
             $('#sellOrBuyError').text("Sie besitzen nicht genügend Geld um die Aktien zu kaufen!");
         } else {
             $('#sellOrBuyError').text("");
 
-            amountMoney = (amountMoney - calculateFee(amount) - amount * parseFloat($("#aktienCours").text())).toFixed(2);
+            amountMoney = (amountMoney - calculateFee(amount) - amount * shareValue).toFixed(2);
             amountOfSharesOwned = amountOfSharesOwned + amount;
 
             $('#amountAktien').text(amountOfSharesOwned);
@@ -126,7 +128,7 @@ function sellShares(amount) {
             $('#sellOrBuyError').text("Sie können nicht mehr Aktien verkaufen als Sie besitzen!");
         } else {
             $('#sellOrBuyError').text("");
-            amountMoney = (amountMoney - calculateFee(amount) - (-amount) * parseFloat($("#aktienCours").text())).toFixed(2);
+            amountMoney = (amountMoney - calculateFee(amount) - (-amount) * shareValue).toFixed(2);
             amountOfSharesOwned = amountOfSharesOwned - amount;
             $('#amountAktien').text(amountOfSharesOwned);
             $('#capital').text(parseFloat(amountMoney));
@@ -136,10 +138,10 @@ function sellShares(amount) {
 
 function calculateFee(amount) {
 
-    if ((5 - (-1) * 0.05 * amount * parseFloat($("#aktienCours").text()) > 60)) {
+    if ((5 - (-1) * 0.05 * amount * shareValue > 60)) {
         return 60;
     } else {
-        return (5 - (-1) * 0.05 * amount * parseFloat($("#aktienCours").text()));
+        return (5 - (-1) * 0.05 * amount * shareValue);
     }
 }
 
@@ -165,8 +167,8 @@ function currentTime() {
 }
 
 function updateSharesBuyAndSellAmount() {
-    $('#aktienBuyingCost').text((calculateFee(parseInt($("#aktienCount").val())) - (-parseInt($("#aktienCount").val())) * parseFloat($("#aktienCours").text()) || 0).toFixed(2));
-    $('#aktienSellingCost').text(((parseInt($("#aktienCount").val())) * parseFloat($("#aktienCours").text()) - calculateFee(parseInt($("#aktienCount").val())) || 0).toFixed(2));
+    $('#aktienBuyingCost').text((calculateFee(parseInt($("#aktienCount").val())) - (-parseInt($("#aktienCount").val())) * shareValue || 0).toFixed(2));
+    $('#aktienSellingCost').text(((parseInt($("#aktienCount").val())) * shareValue - calculateFee(parseInt($("#aktienCount").val())) || 0).toFixed(2));
 }
 
 function drawSharesValueGraph(newAktienCourse, time) {
