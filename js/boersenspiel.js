@@ -164,8 +164,8 @@ function currentTime() {
 }
 
 function updateSharesBuyAndSellAmount() {
-    $('#aktienBuyingCost').text(calculateFee(parseInt($("#aktienCount").val())) - (-parseInt($("#aktienCount").val())) * parseFloat($("#aktienCours").text()) || 0);
-    $('#aktienSellingCost').text((parseInt($("#aktienCount").val())) * parseFloat($("#aktienCours").text()) - calculateFee(parseInt($("#aktienCount").val())) || 0);
+    $('#aktienBuyingCost').text((calculateFee(parseInt($("#aktienCount").val())) - (-parseInt($("#aktienCount").val())) * parseFloat($("#aktienCours").text()) || 0).toFixed(2));
+    $('#aktienSellingCost').text(((parseInt($("#aktienCount").val())) * parseFloat($("#aktienCours").text()) - calculateFee(parseInt($("#aktienCount").val())) || 0).toFixed(2));
 }
 
 function drawSharesValueGraph(newAktienCourse, time) {
