@@ -174,19 +174,6 @@ function updateSharesBuyAndSellAmount() {
 
 function drawSharesValueGraph(newAktienCourse, time) {
 
-    /* let modiviedAktienCOurseForDrawing = parseInt((newAktienCourse - 100) / 10) * 10;
-
-     if (modiviedAktienCOurseForDrawing < 0) {
-         modiviedAktienCOurseForDrawing = modiviedAktienCOurseForDrawing * -1;
-     } else {
-         modiviedAktienCOurseForDrawing = modiviedAktienCOurseForDrawing + 10;
-     }
-
-     modiviedAktienCOurseForDrawing = modiviedAktienCOurseForDrawing + 1;
-
-     modiviedAktienCOurseForDrawing = (modiviedAktienCOurseForDrawing) * (400 / 20);*/
-
-
     let height = document.getElementById('stockMarket').scrollHeight;
     let width = document.getElementById('stockMarket').scrollWidth;
 
@@ -194,5 +181,4 @@ function drawSharesValueGraph(newAktienCourse, time) {
 
     canvas.lineTo(time * (width / maxGameTimeSec), modiviedAktienCOurseForDrawing);
     canvas.stroke();
-    console.log(height);
 }

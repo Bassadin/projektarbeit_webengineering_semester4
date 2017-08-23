@@ -1,7 +1,15 @@
-let request = new XMLHttpRequest();
+//let request = new XMLHttpRequest();
 let shareValue;
 let amountOfSharesOwned;
 let amountMoney;
+let maxGameTimeSec = 900;
+
+let canvas = document.getElementById('stockMarket');
+canvas = canvas.getContext('2d');
+canvas.lineJoin = "round";
+canvas.beginPath();
+canvas.moveTo(0, 3404);
+
 
 $(document).ready(function() {
 
@@ -64,25 +72,29 @@ function stopGame() {
 
 function buyShares(amount) {
 
-    $.buyShares('aktienkurs.php', { postShareCourse: 2 }, function(shareValue) {
-        $.buyShares('transaktion.php', { postShareValue: shareValue, postUsername: username, postAmount: amount, postKind: "buy" }, function() {});
+    $.post('aktienkurs.php', { postShareCourse: 2 }, function(shareValueNow) {
+        $.post('transaktion.php', { postShareValue: shareValueNow, postUsername: username, postAmount: amount, postKind: "buy" }, function(data) {
+            $('#sellOrBuyError').text(data)
+        });
     });
 
-    getAmountOfShares()
+    getAmountOfShares();
     $('#amountAktien').text(amountOfSharesOwned);
-    getAmountOfMoneyOwned()
+    getAmountOfMoneyOwned();
     $('#capital').text(parseFloat(amountMoney));
 }
 
 function sellShares(amount) {
 
-    $.sellShares('aktienkurs.php', { postShareCourse: 2 }, function(shareValue) {
-        $.sellShares('transaktion.php', { postShareValue: shareValue, postUsername: username, postAmount: amount, postKind: "sell" }, function() {});
+    $.post('aktienkurs.php', { postShareCourse: 2 }, function(shareValueNow) {
+        $.post('transaktion.php', { postShareValue: shareValueNow, postUsername: username, postAmount: amount, postKind: "sell" }, function(data) {
+            $('#sellOrBuyError').text(data)
+        });
     });
 
-    getAmountOfShares()
+    getAmountOfShares();
     $('#amountAktien').text(amountOfSharesOwned);
-    getAmountOfMoneyOwned()
+    getAmountOfMoneyOwned();
     $('#capital').text(parseFloat(amountMoney));
 
 }
@@ -122,28 +134,24 @@ function drawSharesValueGraph(newAktienCourse, time) {
 
     canvas.lineTo(time * (width / maxGameTimeSec), modiviedAktienCOurseForDrawing);
     canvas.stroke();
-    console.log(height);
 }
 
 function getNewShareValue() {
-    let username = document.getElementById("username").val();
-    $.getNewShareValue('aktienkurs.php', { postShareCourse: 1, postUsername: username }, function(newShareValue) {
-        shareValue = newShareValue;
+
+    let username = $("#username").val();
+    $.post('aktienkurs.php', { postShareCourse: 1, postUsername: username }, function(data) {
+        shareValue = data;
     });
 }
 
 function getAmountOfShares() {
-    $.getAmountOfShares('transaktionen.php', { postGetShares: 1 }, function(newShareAmount) {
+    $.post('transaktionen.php', { postGetShares: 1 }, function(newShareAmount) {
         amountOfSharesOwned = newShareAmount;
     });
 }
 
 function getAmountOfMoneyOwned() {
-    $.getAmountOfMoneyOwned('transaktionen.php', { postGetMoney: 1 }, function(newMoneyAmount) {
+    $.post('transaktionen.php', { postGetMoney: 1 }, function(newMoneyAmount) {
         amountMoney = newMoneyAmount;
     });
 }
-
-/* request.onload = getNewShareValue;
-request.open('GET', 'aktienkurs.php');
-request.send(); */
