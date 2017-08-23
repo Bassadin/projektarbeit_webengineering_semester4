@@ -1,3 +1,4 @@
+//Declare globals
 let amountOfSharesOwned = 0;
 let amountMoney = 10000;
 let maxGameTimeSec = 900;
@@ -9,10 +10,10 @@ canvas.lineJoin = "round";
 canvas.beginPath();
 canvas.moveTo(0, 3404);
 
-
+//Define all events
 $(document).ready(function() {
 
-    currentTime();
+    setCurrentTime();
 
     $('#endGame').click(function() {
         stopGame();
@@ -39,8 +40,8 @@ let numberOfRise;
 let numberOfFall;
 let runningGame = null;
 
+//Start the game with the given username
 function startGame(username) {
-
     if (username) {
         document.getElementById("startGame").disabled = true;
         document.getElementById("username").disabled = true;
@@ -57,9 +58,9 @@ function startGame(username) {
     } else {
         $('#noUserName').text("Sie müssen einen Spielernamen eingeben befor Sie das Spiel starten können!");
     }
-
 }
 
+//Stop the game and clear the running interval
 function stopGame() {
     clearInterval(runningGame);
 }
@@ -94,19 +95,20 @@ function sharesCourseChange(sharesValue) {
     shareValue = newAktienPrice;
 }
 
-function calculateCourseChange(likeliness) {
+//Calculate the shares value change based on the given likelihood
+function calculateCourseChange(likelihood) {
     let changeAmount = (Math.random() * (0.15 - 0.01) + 0.01).toFixed(2); // number between 0.01 and 0.015
     let riseOrFall = ((Math.random() * 100) + 1);
 
-    if (riseOrFall <= 100 * likeliness) {
+    if (riseOrFall <= 100 * likelihood) {
         return changeAmount;
     } else {
         return changeAmount * -1;
     }
 }
 
+//Buy the given amount of shares for the user
 function buyShares(amount) {
-
     if (!amount == 0) {
         if ((amount * shareValue - (-1) * calculateFee(amount)) > amountMoney) {
             $('#sellOrBuyError').text("Sie besitzen nicht genügend Geld um die Aktien zu kaufen!");
@@ -120,9 +122,9 @@ function buyShares(amount) {
             $('#capital').text(parseFloat(amountMoney));
         }
     }
-
 }
 
+//Sell the given amount of shares for the user
 function sellShares(amount) {
     if (!amount == 0) {
         if (amount > parseInt($('#amountAktien').text())) {
@@ -137,6 +139,7 @@ function sellShares(amount) {
     }
 }
 
+//Calculate the fee for the given amount
 function calculateFee(amount) {
 
     if ((5 - (-1) * 0.05 * amount * shareValue > 60)) {
@@ -146,8 +149,8 @@ function calculateFee(amount) {
     }
 }
 
-
-function currentTime() {
+//Update the date time label with the current values
+function setCurrentTime() {
 
     date = new Date;
     let hour = date.getHours();
@@ -164,16 +167,17 @@ function currentTime() {
     }
     result = hour + ':' + minutes + ':' + seconds;
     $('#time').text(result);
-    setTimeout(currentTime, 1000);
+    setTimeout(setCurrentTime, 1000);
 }
 
+//Update the shares labels
 function updateSharesBuyAndSellAmount() {
     $('#aktienBuyingCost').text((calculateFee(parseInt($("#aktienCount").val())) - (-parseInt($("#aktienCount").val())) * shareValue || 0).toFixed(2));
     $('#aktienSellingCost').text(((parseInt($("#aktienCount").val())) * shareValue - calculateFee(parseInt($("#aktienCount").val())) || 0).toFixed(2));
 }
 
+//Draw the shares graph
 function drawSharesValueGraph(newAktienCourse, time) {
-
     let height = document.getElementById('stockMarket').scrollHeight;
     let width = document.getElementById('stockMarket').scrollWidth;
 
