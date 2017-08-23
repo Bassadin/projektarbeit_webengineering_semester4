@@ -43,6 +43,7 @@ function startGame(username) {
 
     if (username) {
         document.getElementById("startGame").disabled = true;
+        document.getElementById("username").disabled = true;
         let runtime = 0;
         runningGame = setInterval(function() {
             runtime = runtime + 1;
