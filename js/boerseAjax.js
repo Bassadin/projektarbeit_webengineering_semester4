@@ -1,3 +1,4 @@
+//Declare global vars
 //let request = new XMLHttpRequest();
 let shareValue;
 let amountOfSharesOwned;
@@ -10,6 +11,9 @@ canvas.lineJoin = "round";
 canvas.beginPath();
 canvas.moveTo(0, 3404);
 
+let numberOfRise;
+let numberOfFall;
+let runningGame = null;
 
 $(document).ready(function() {
 
@@ -36,12 +40,9 @@ $(document).ready(function() {
     });
 });
 
-let numberOfRise;
-let numberOfFall;
-let runningGame = null;
 
+//Start the game with the given username
 function startGame(username) {
-
     if (username) {
         document.getElementById("startGame").disabled = true;
         document.getElementById("username").disabled = true;
@@ -61,15 +62,14 @@ function startGame(username) {
     } else {
         $('#noUserName').text("Sie müssen einen Spielernamen eingeben befor Sie das Spiel starten können!");
     }
-
 }
 
+//Stop the current game and clear the interval
 function stopGame() {
     clearInterval(runningGame);
 }
 
-
-
+//Buy the given amount of shares for the user
 function buyShares(amount) {
 
     $.post('aktienkurs.php', { postShareCourse: 2 }, function(shareValueNow) {
@@ -84,6 +84,7 @@ function buyShares(amount) {
     $('#capital').text(parseFloat(amountMoney));
 }
 
+//Sell the given amount of shares for the user
 function sellShares(amount) {
 
     $.post('aktienkurs.php', { postShareCourse: 2 }, function(shareValueNow) {
@@ -99,9 +100,8 @@ function sellShares(amount) {
 
 }
 
-
+//Update the date time label with the current values
 function currentTime() {
-
     date = new Date;
     let hour = date.getHours();
     if (hour < 10) {
@@ -120,11 +120,13 @@ function currentTime() {
     setTimeout(currentTime, 1000);
 }
 
+//Update the shares labels
 function updateSharesBuyAndSellAmount() {
     $('#aktienBuyingCost').text((calculateFee(parseInt($("#aktienCount").val())) - (-parseInt($("#aktienCount").val())) * shareValue || 0).toFixed(2));
     $('#aktienSellingCost').text(((parseInt($("#aktienCount").val())) * shareValue - calculateFee(parseInt($("#aktienCount").val())) || 0).toFixed(2));
 }
 
+//Draw the shares value graph
 function drawSharesValueGraph(newAktienCourse, time) {
 
     let height = document.getElementById('stockMarket').scrollHeight;
@@ -136,20 +138,22 @@ function drawSharesValueGraph(newAktienCourse, time) {
     canvas.stroke();
 }
 
+//Get the value of new shares from the database
 function getNewShareValue() {
-
     let username = $("#username").val();
     $.post('aktienkurs.php', { postShareCourse: 1, postUsername: username }, function(data) {
         shareValue = data;
     });
 }
 
+//Get the amount of owned shares from the database
 function getAmountOfShares() {
     $.post('transaktionen.php', { postGetShares: 1 }, function(newShareAmount) {
         amountOfSharesOwned = newShareAmount;
     });
 }
 
+//Get the amount of owned money from the database
 function getAmountOfMoneyOwned() {
     $.post('transaktionen.php', { postGetMoney: 1 }, function(newMoneyAmount) {
         amountMoney = newMoneyAmount;
